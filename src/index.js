@@ -6,18 +6,13 @@ import cors from "cors";
 import appleRouter from "./routers/appleRouter";
 import noticeRouter from "./routers/noticeRouter";
 
-const corsOptions = {
-  origin: [
-    "http://localhost:3000",
-    "https://frabjous-unicorn-98f0b3.netlify.app",
-  ],
-};
+
 const PORT = process.env.PORT;
 const app = express();
 
 app.use(express.json());
 app.use(morgan("dev"));
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.get("/", (req, res) => res.send({ name: "hi kim" }));
 app.use("/notice", noticeRouter);
