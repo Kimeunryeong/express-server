@@ -14,8 +14,13 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(cors());
 
+const middleTest = (req, res, next) => {
+  console.log("test")
+  next()
+}
+
 app.get("/", (req, res) => res.send({ name: "hi kim" }));
-app.use("/notice", noticeRouter);
+app.use("/notice", middleTest, noticeRouter);
 app.use("/apple", appleRouter);
 
 app.listen(PORT, () => console.log(`🐣 http://localhost:${PORT}`));
