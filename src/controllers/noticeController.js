@@ -16,7 +16,7 @@ export const noticeWrite = async (req, res) => {
     const data = await Notice.create({
       title,
       description,
-      createAt: Date.now(),
+      createdAt: Date.now(),
       writer,
     });
     return res.send({ result: true, data: data }); //data:(data) 생략가능
