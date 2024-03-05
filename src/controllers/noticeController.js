@@ -1,8 +1,13 @@
 import Notice from "../models/notice";
 
 export const noticeList = async (req, res) => {
+  const OFFSET = 0;
+  const LIMIT = 15;
   try {
-    const data = await Notice.find({});
+    const data = await Notice.find({})
+      .sort({ createdAt: -1 })
+      .limit(LIMIT)
+      .skip(OFFSET);
     return res.send({ name: "list", data });
   } catch (error) {
     console.log(error);
@@ -16,7 +21,7 @@ export const noticeWrite = async (req, res) => {
       title,
       description,
       writer,
-      createdAt: Date.now(),
+      createdAt: new Date(Date.now()),
     });
     return res.send({ result: true, data });
   } catch (err) {
@@ -45,14 +50,30 @@ export const noticeEdit = async (req, res) => {
   } = req;
 
   try {
-    const data = await Notice.findByIdAndUpdate(id, {
-      title,
-      description,
-      writer,
-    });
+    const data = await Notice.findByIdAndUpdate(
+      id,
+      {
+        title,
+        description,
+        writer,
+        updatedAt: new Date(Date.now()),
+      },
+      { new: true }
+    );
     res.send({ result: true, data });
   } catch (error) {
     console.log(error);
   }
 };
-export const noticeDelete = (req, res) => res.send({ name: "delete" });
+
+export const noticeDelete = async (req, res) => {
+  console.log(req.params);
+  const { id } = req.params;
+  try {
+    await Notice.findByIdAndDelete(id);
+    res.send({ name: "delete" });
+  } catch (error) {
+    console.log(error);
+    res.send({ result: false, error });
+  }
+};

@@ -20,7 +20,7 @@ const middleTest = (req, res, next) => {
 }
 
 app.get("/", (req, res) => res.send({ name: "hi kim" }));
-app.use("/notice", middleTest, noticeRouter);
+app.use("/notice", noticeRouter); 
 app.use("/apple", appleRouter);
 
 app.listen(PORT, () => console.log(`🐣 http://localhost:${PORT}`));
